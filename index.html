@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Join FightMe Match</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: #111;
+            color: white;
+        }
+        .btn {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>FightMe</h1>
+    <p>Opening your match...</p>
+    <div id="status"></div>
+    <a id="manual-link" href="#" class="btn">Launch Game</a>
+    <script>
+        // 1. Get Room Code from URL: set it via ?code=XYZ
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('code');
+        if (code) {
+            // 2. Construct the Custom Scheme URL
+            const appUrl = "fightme://invite/" + code;
+            // 3. Update Manual Link
+            document.getElementById('manual-link').href = appUrl;
+            // 4. Attempt Redirect
+            document.getElementById('status').innerText = "Redirecting to room: " + code;
+            // Wait a split second then go
+            setTimeout(function () {
+                window.location.href = appUrl;
+            }, 500);
+        } else {
+            document.getElementById('status').innerText = "No invite code found.";
+            document.getElementById('manual-link').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
